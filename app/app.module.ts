@@ -17,6 +17,8 @@ import { ContactComponent } from './contact/contact.component';
 import { AboutComponent } from './about/about.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { ReservationComponent } from './reservation/reservation.component';
+import { ReservationModalComponent } from "./reservationmodal/reservationmodal.component";
+
 
 import { DishService } from './services/dish.service';
 import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
@@ -57,7 +59,8 @@ import { baseURL } from './shared/baseurl';
         ContactComponent,
         AboutComponent,
         FavoritesComponent,
-        ReservationComponent
+        ReservationComponent,
+        ReservationModalComponent
     ],
     providers: [
         {provide: 'baseURL', useValue: baseURL},
@@ -67,6 +70,7 @@ import { baseURL } from './shared/baseurl';
         LeaderService,
         FavoriteService
     ],
+    entryComponents: [ReservationModalComponent],
     schemas: [
         NO_ERRORS_SCHEMA
     ]

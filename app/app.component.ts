@@ -1,22 +1,24 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import * as app from "application";
 import { RouterExtensions } from "nativescript-angular/router";
 import { DrawerTransitionBase, RadSideDrawer, SlideInOnTopTransition } from "nativescript-ui-sidedrawer";
 import { filter } from "rxjs/operators";
 import { TNSFontIconService } from 'nativescript-ngx-fonticon';
+import { PlatformService } from './services/platform.service'; 
 
 @Component({
     selector: "ns-app",
     templateUrl: "app.component.html"
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
     private _activatedUrl: string;
     private _sideDrawerTransition: DrawerTransitionBase;
 
     constructor(private router: Router, 
                 private routerExtensions: RouterExtensions,
-                private fonticon: TNSFontIconService
+                private fonticon: TNSFontIconService,
+                private platformService: PlatformService
                 ) {
         // Use the component constructor to inject services.
     }
@@ -28,7 +30,17 @@ export class AppComponent implements OnInit {
         this.router.events
         .pipe(filter((event: any) => event instanceof NavigationEnd))
         .subscribe((event: NavigationEnd) => this._activatedUrl = event.urlAfterRedirects);
+        this.platformService.printPlatformInfo(); 
+        this.platformService.startMonitoringNetwork()
+            .subscribe((message: string) => {
+            console.log(message); 
+        
+        });
     }
+
+    ngOnDestroy() { 
+        this.platformService.stopMonitoringNetwork(); 
+    } 
 
     get sideDrawerTransition(): DrawerTransitionBase {
         return this._sideDrawerTransition;

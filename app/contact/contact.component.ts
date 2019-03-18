@@ -4,6 +4,7 @@ import * as app from "application";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import { TNSFontIconService } from 'nativescript-ngx-fonticon';
 import * as Email from 'nativescript-email';
+import * as TNSPhone from 'nativescript-phone';
 
 @Component({
   selector: 'app-contact',
@@ -43,5 +44,16 @@ export class ContactComponent implements OnInit {
         })
   
     }
+
+    callRestaurant(){
+      
+      const phoneNumber = '+852 1234 5678';
+      TNSPhone.requestCallPermission('You should accept the permission to be able to make a direct phone call.')
+          .then(() => TNSPhone.dial(phoneNumber, false))
+          .catch(() => TNSPhone.dial(phoneNumber, true));
+    }
+      
+
+        
 
 }
